@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Build it Bigger</string>
+    <string name="instructions">Press the button for a dumb joke!</string>
+    <string name="button_text">Tell Joke</string>
+    <string name="action_settings">Settings</string>
+    <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+
+    <string-array name="jokes">
+        <item>Q: What kind of music do chiropractors listen to?\nA: HIP-POP!</item>
+        <item>Q: What did the traffic light say to the car?\nA: Don\'t look, I\'m changing.</item>
+        <item>Guy walks into a bar with a slab of asphalt under arm. Says to the bartender: "I’ll take a beer, and one for the road."</item>
+        <item>Q: Why is there no gambling in Africa?\nA: Too many Cheetahs!</item>
+        <item>Q: What did the worker at the rubber band factory say when he lost his job?\nA: OH SNAP</item>
+        <item>Q: How did Darth Vader know what Luke got him for Christmas?\nA: He felt his presents!</item>
+        <item>Q: What did the elder chimney say to the younger chimney?\nA: You\'re too young to smoke!</item>
+        <item>Q: How does the man in the moon cut his hair?\nA: ECLIPSE IT!</item>
+        <item>Q: What did the fish say when he ran into the wall?\nA: DAM!</item>
+        <item>Q: What do you call a bear with no teeth?\nA: A gummy bear.</item>
+        <item>Q: Why are all the frogs around here dead?\nA: \'Cause they keep croaking!</item>
+        <item>A neutron walks into a bar and asks "how much for a beer?" The bartender says, "for you? no charge."</item>
+        <item>Two atoms are walking down the street together. The first atom turns and says, "Hey, you just stole an electron from me!"\n"Are you sure?" asks the second atom.\nTo which the first atom replies, "Yeah, I'm positive!"</item>
+    </string-array>
+
+</resources>

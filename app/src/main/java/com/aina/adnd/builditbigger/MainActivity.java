@@ -1,20 +1,20 @@
 package com.aina.adnd.builditbigger;
 
-import android.content.res.Resources;
-import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 import com.aina.adnd.Joke;
+import com.aina.adnd.jokedisplay.JokeDisplayActivity;
 
+public class MainActivity extends AppCompatActivity {
 
-public class MainActivity extends ActionBarActivity {
-
-    private static int nextIndx = 0;
     private Joke joke = new Joke();
+    private final static String JOKE = "NextJoke";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +47,11 @@ public class MainActivity extends ActionBarActivity {
 
     public void tellJoke(View view){
 
-        //Toast.makeText(this, joke.getNext(), Toast.LENGTH_SHORT).show();
-        Toast.makeText(this, joke.getRandom(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, joke.getRandom(), Toast.LENGTH_SHORT).show();
+
+        Intent intent = new Intent(this, JokeDisplayActivity.class);
+        intent.putExtra(JOKE, joke.getNext());
+        startActivity(intent);
     }
 
 }

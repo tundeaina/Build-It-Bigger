@@ -9,7 +9,7 @@ public class Joke {
     private String[] jokes = {
             "Q: What kind of music do chiropractors listen to?\r\nA: HIP-POP!",
             "Q: What did the traffic light say to the car?\r\nA: Don't look, I'm changing.",
-            "Guy walks into a bar with a slab of asphalt under arm. Says to the bartender: \"I’ll take a beer, and one for the road.\"",
+            "Guy walks into a bar with a slab of asphalt under arm. Says to the bartender: \"I'll take a beer, and one for the road.\"",
             "Q: Why is there no gambling in Africa?\r\nA: Too many Cheetahs!",
             "Q: What did the worker at the rubber band factory say when he lost his job?\r\nA: OH SNAP",
             "Q: How did Darth Vader know what Luke got him for Christmas?\r\nA: He felt his presents!",

@@ -11,6 +11,7 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/jokedisplay" />
+            <option value="$PROJECT_DIR$/jokeserver" />
             <option value="$PROJECT_DIR$/jokester" />
           </set>
         </option>

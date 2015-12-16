@@ -17,7 +17,7 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         android:id="@+id/jokeDisplayTextView"
         android:text="@string/blank_joke"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textColor="@color/black"
         android:background="@drawable/text_box"
         />

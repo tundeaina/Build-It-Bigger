@@ -3,8 +3,9 @@ package com.aina.adnd.builditbigger;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 
-import com.aina.adnd.jokedisplay.JokeDisplayActivity;
 import com.aina.adnd.jokeserver.jokesApi.JokesApi;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -20,6 +21,7 @@ import java.io.IOException;
 public class JokesEndpointAsyncTask extends AsyncTask<Context, Void, String> {
     private static JokesApi jokeApi = null;
     private Context context;
+    public static final String LOG_TAG = JokesEndpointAsyncTask.class.getSimpleName();
 
     @Override
     protected String doInBackground(Context... params) {
@@ -58,8 +60,11 @@ public class JokesEndpointAsyncTask extends AsyncTask<Context, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        Intent intent = new Intent(context, JokeDisplayActivity.class);
-        intent.putExtra(JokeDisplayActivity.JOKE, result);
-        context.startActivity(intent);
+
+        Intent intent = new Intent("JokeRetrieved");
+        // add data
+        intent.putExtra("Joke", result);
+        Log.d(LOG_TAG, "mResult: ------------> " + result);
+        LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
     }
 }

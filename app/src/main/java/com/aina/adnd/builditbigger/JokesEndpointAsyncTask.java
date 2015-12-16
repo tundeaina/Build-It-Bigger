@@ -23,7 +23,9 @@ public class JokesEndpointAsyncTask extends AsyncTask<Context, Void, String> {
 
     @Override
     protected String doInBackground(Context... params) {
-        if(jokeApi == null) {  // Only do this once
+        if(jokeApi == null) {
+            /*
+            // Only do this once
             JokesApi.Builder builder = new JokesApi.Builder(AndroidHttp.newCompatibleTransport(),
                     new AndroidJsonFactory(), null)
                     // options for running against local devappserver
@@ -37,6 +39,10 @@ public class JokesEndpointAsyncTask extends AsyncTask<Context, Void, String> {
                         }
                     });
                     // end options for devappserver
+            */
+
+            JokesApi.Builder builder = new JokesApi.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
+                    .setRootUrl("https://android-nanodegree-joker.appspot.com/_ah/api/");
 
             jokeApi = builder.build();
         }

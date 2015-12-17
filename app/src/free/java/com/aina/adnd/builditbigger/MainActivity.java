@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -14,16 +15,33 @@ import android.view.View;
 
 import com.aina.adnd.Joke;
 import com.aina.adnd.jokedisplay.JokeDisplayActivity;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 
 public class MainActivity extends AppCompatActivity {
 
     private Joke joke = new Joke();
     private final static String JOKE = "NextJoke";
+    InterstitialAd mInterstitialAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
+
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                requestNewInterstitial();
+                fetchJoke();
+            }
+        });
+
+        requestNewInterstitial();
     }
 
     @Override
@@ -67,12 +85,24 @@ public class MainActivity extends AppCompatActivity {
 
     public void tellJoke(View view){
 
-        //Toast.makeText(this, joke.getRandom(), Toast.LENGTH_SHORT).show();
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        } else {
+            fetchJoke();
+        }
 
-        JokesEndpointAsyncTask jokesEndpointAsyncTask = new JokesEndpointAsyncTask();
+        fetchJoke();
+    }
 
-        jokesEndpointAsyncTask.execute(this);
+    private void requestNewInterstitial() {
 
+        String android_id = "3B874352678F9EC31531BCA504EB1E5F";
+
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(android_id)
+                .build();
+
+        mInterstitialAd.loadAd(adRequest);
     }
 
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
@@ -89,4 +119,11 @@ public class MainActivity extends AppCompatActivity {
     };
 
 
+    private void fetchJoke() {
+        //Toast.makeText(this, joke.getRandom(), Toast.LENGTH_SHORT).show();
+
+        JokesEndpointAsyncTask jokesEndpointAsyncTask = new JokesEndpointAsyncTask();
+
+        jokesEndpointAsyncTask.execute(getApplicationContext());
+    }
 }

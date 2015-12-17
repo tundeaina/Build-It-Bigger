@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -18,6 +17,7 @@ import com.aina.adnd.jokedisplay.JokeDisplayActivity;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
         requestNewInterstitial();
     }
+
 
     @Override
     protected void onResume() {
@@ -108,6 +109,7 @@ public class MainActivity extends AppCompatActivity {
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+
             // Extract data included in the Intent
             String result = intent.getStringExtra("Joke");
             Log.d("receiver", "Got message: " + result);

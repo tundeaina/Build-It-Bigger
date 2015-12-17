@@ -19,6 +19,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    productFlavors {
+        free {
+            applicationId "com.aina.adnd.builditbigger.free"
+        }
+        paid {
+            applicationId "com.aina.adnd.builditbigger.paid"
+        }
+    }
 }
 
 dependencies {

@@ -15,29 +15,32 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/instructions"
+        android:textSize="18sp"
         />
 
-    <Button
-        android:id="@+id/btn"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/instructions_text_view"
-        android:onClick="tellJoke"
-        android:text="@string/button_text"
+        android:orientation="horizontal"
+        android:paddingBottom="50dp"
+        android:paddingTop="50dp">
 
-        />
-    <ProgressBar
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/progressBar"
-        android:progressDrawable="@drawable/circular_progress_bar"
-        android:layout_below="@+id/btn"
-        android:layout_alignRight="@+id/btn"
-        android:layout_alignEnd="@+id/btn"
-        android:layout_alignLeft="@+id/btn"
-        android:layout_alignStart="@+id/btn"
-        android:layout_alignParentBottom="true" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/button_text"
+            android:onClick="tellJoke"
+            android:id="@+id/button" />
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:id="@+id/progressBar"
+            android:progressDrawable="@drawable/circular_progress_bar" />
+    </LinearLayout>
 
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"

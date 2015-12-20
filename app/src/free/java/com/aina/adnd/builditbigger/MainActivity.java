@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -28,11 +29,17 @@ public class MainActivity extends AppCompatActivity {
     private Joke joke = new Joke();
     private final static String JOKE = "NextJoke";
     InterstitialAd mInterstitialAd;
+    MainActivityFragment mainActivityFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mainActivityFragment = new MainActivityFragment();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_main_container, mainActivityFragment);
+        transaction.commit();
 
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId(getResources().getString(R.string.banner_ad_unit_id));
@@ -41,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onAdClosed() {
                 requestNewInterstitial();
+                mainActivityFragment.startSpinner();
                 fetchJoke();
             }
         });
@@ -114,6 +122,8 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
 
+            mainActivityFragment.stopSpinner();
+
             // Extract data included in the Intent
             String result = intent.getStringExtra("Joke");
             Log.d(LOG_TAG, "Joke Received: " + result.replace("\r",""));
@@ -127,8 +137,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void fetchJoke() {
         if (isNetworkAvailable()) {
+
             JokesEndpointAsyncTask jokesEndpointAsyncTask = new JokesEndpointAsyncTask();
             jokesEndpointAsyncTask.execute(getApplicationContext());
+
         } else {
             Toast.makeText(this
                     , getResources().getString(R.string.prompt_connectivity)

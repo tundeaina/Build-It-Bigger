@@ -4,13 +4,17 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.aina.adnd.Joke;
 import com.aina.adnd.jokedisplay.JokeDisplayActivity;
@@ -18,13 +22,20 @@ import com.aina.adnd.jokedisplay.JokeDisplayActivity;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String LOG_TAG = MainActivity.class.getSimpleName();
     private Joke joke = new Joke();
     private final static String JOKE = "NextJoke";
+    MainActivityFragment mainActivityFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mainActivityFragment = new MainActivityFragment();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_main_container, mainActivityFragment);
+        transaction.commit();
     }
 
     @Override
@@ -74,9 +85,12 @@ public class MainActivity extends AppCompatActivity {
     private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
+
+            mainActivityFragment.stopSpinner();
+
             // Extract data included in the Intent
             String result = intent.getStringExtra("Joke");
-            Log.d("receiver", "Got message: " + result);
+            Log.d(LOG_TAG, "Joke Received: " + result.replace("\r",""));
 
             intent = new Intent(context, JokeDisplayActivity.class);
             intent.putExtra(JokeDisplayActivity.JOKE, result);
@@ -86,10 +100,26 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void fetchJoke() {
-        //Toast.makeText(this, joke.getRandom(), Toast.LENGTH_SHORT).show();
+        if (isNetworkAvailable()) {
 
-        JokesEndpointAsyncTask jokesEndpointAsyncTask = new JokesEndpointAsyncTask();
+            JokesEndpointAsyncTask jokesEndpointAsyncTask = new JokesEndpointAsyncTask();
+            jokesEndpointAsyncTask.execute(getApplicationContext());
 
-        jokesEndpointAsyncTask.execute(getApplicationContext());
+            mainActivityFragment.startSpinner();
+
+        } else {
+            Toast.makeText(this
+                    , getResources().getString(R.string.prompt_connectivity)
+                    , Toast.LENGTH_LONG).show();
+        }
+    }
+
+    //Based on a stackoverflow snippet
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

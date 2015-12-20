@@ -4,6 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.aina.adnd.Joke;
 import com.aina.adnd.jokedisplay.JokeDisplayActivity;
@@ -21,6 +24,7 @@ import com.google.android.gms.ads.InterstitialAd;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String LOG_TAG = MainActivity.class.getSimpleName();
     private Joke joke = new Joke();
     private final static String JOKE = "NextJoke";
     InterstitialAd mInterstitialAd;
@@ -31,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/6300978111");
+        mInterstitialAd.setAdUnitId(getResources().getString(R.string.banner_ad_unit_id));
 
         mInterstitialAd.setAdListener(new AdListener() {
             @Override
@@ -97,10 +101,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void requestNewInterstitial() {
 
-        String android_id = "3B874352678F9EC31531BCA504EB1E5F";
+        String device_id = "3B874352678F9EC31531BCA504EB1E5F";
 
         AdRequest adRequest = new AdRequest.Builder()
-                .addTestDevice(android_id)
+                .addTestDevice(device_id)
                 .build();
 
         mInterstitialAd.loadAd(adRequest);
@@ -112,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
             // Extract data included in the Intent
             String result = intent.getStringExtra("Joke");
-            Log.d("receiver", "Got message: " + result);
+            Log.d(LOG_TAG, "Joke Received: " + result.replace("\r",""));
 
             intent = new Intent(context, JokeDisplayActivity.class);
             intent.putExtra(JokeDisplayActivity.JOKE, result);
@@ -122,10 +126,22 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void fetchJoke() {
-        //Toast.makeText(this, joke.getRandom(), Toast.LENGTH_SHORT).show();
+        if (isNetworkAvailable()) {
+            JokesEndpointAsyncTask jokesEndpointAsyncTask = new JokesEndpointAsyncTask();
+            jokesEndpointAsyncTask.execute(getApplicationContext());
+        } else {
+            Toast.makeText(this
+                    , getResources().getString(R.string.prompt_connectivity)
+                    , Toast.LENGTH_LONG).show();
+        }
+    }
 
-        JokesEndpointAsyncTask jokesEndpointAsyncTask = new JokesEndpointAsyncTask();
+    //Based on a stackoverflow snippet
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        jokesEndpointAsyncTask.execute(getApplicationContext());
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

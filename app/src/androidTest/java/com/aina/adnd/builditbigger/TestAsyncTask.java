@@ -5,19 +5,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.AsyncTask;
 import android.support.v4.content.LocalBroadcastManager;
 import android.test.AndroidTestCase;
 import android.util.Log;
 
-import com.aina.adnd.jokedisplay.JokeDisplayActivity;
-import com.aina.adnd.jokeserver.jokesApi.JokesApi;
-import com.google.api.client.extensions.android.http.AndroidHttp;
-import com.google.api.client.extensions.android.json.AndroidJsonFactory;
-
-import java.io.IOException;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Tunde Aina on 12/16/2015.
@@ -44,8 +36,6 @@ public class TestAsyncTask extends AndroidTestCase {
 
         JokesEndpointAsyncTask jokesEndpointAsyncTask = new JokesEndpointAsyncTask();
         jokesEndpointAsyncTask.execute(getContext());
-
-        //new JokesEndpointAsyncTask().execute(getContext());
 
         try {
             signal.await();

@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void requestNewInterstitial() {
 
-        String device_id = "3B874352678F9EC31531BCA504EB1E5F";
+        String device_id = AdRequest.DEVICE_ID_EMULATOR;//getResources().getString(R.string.device_id);
 
         AdRequest adRequest = new AdRequest.Builder()
                 .addTestDevice(device_id)

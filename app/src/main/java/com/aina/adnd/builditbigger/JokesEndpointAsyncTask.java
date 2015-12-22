@@ -24,9 +24,10 @@ public class JokesEndpointAsyncTask extends AsyncTask<Context, Void, String> {
     public static final String LOG_TAG = JokesEndpointAsyncTask.class.getSimpleName();
 
     @Override
-    protected String doInBackground(Context... params) {
+    protected String doInBackground(Context... params)  {
+
         if(jokeApi == null) {
-            /*
+
             // Only do this once
             JokesApi.Builder builder = new JokesApi.Builder(AndroidHttp.newCompatibleTransport(),
                     new AndroidJsonFactory(), null)
@@ -36,16 +37,17 @@ public class JokesEndpointAsyncTask extends AsyncTask<Context, Void, String> {
                     .setRootUrl("http://10.0.2.2:8080/_ah/api/")
                     .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
                         @Override
-                        public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
+                        public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest)
+                                throws IOException {
                             abstractGoogleClientRequest.setDisableGZipContent(true);
                         }
                     });
                     // end options for devappserver
-            */
 
+            /*
             JokesApi.Builder builder = new JokesApi.Builder(AndroidHttp.newCompatibleTransport(), new AndroidJsonFactory(), null)
                     .setRootUrl("https://android-nanodegree-joker.appspot.com/_ah/api/");
-
+            */
             jokeApi = builder.build();
         }
 

@@ -17,3 +17,9 @@ allprojects {
         jcenter()
     }
 }
+
+task startGCEDevServer_RunConnectedTest_StopGCEDevServer {
+    dependsOn ":app:connectedAndroidTest"
+    mustRunAfter ":jokeserver:appengineRun"
+    finalizedBy ":jokeserver:appengineStop"
+}
